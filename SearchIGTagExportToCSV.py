@@ -1,6 +1,7 @@
 from InstagramAPI import InstagramAPI
 import datetime
 import csv
+import os
 
 
 def getTime(text):
@@ -26,9 +27,7 @@ def getLocation(place):
     return location
 
 
-set(['announcement', 'rocks', 'stackoverflow'])
-
-api = InstagramAPI("", "")
+api = InstagramAPI("USERNAME", "PASSWORD")
 api.login()  # login
 api.tagFeed("cat")  # get media list by tag #cat
 media_id = api.LastJson  # last response JSON
@@ -43,11 +42,16 @@ results = [[post['caption']['user']['username'].encode("utf-8"),
             getLocation(post).encode("utf-8"),
             post['caption']['text'].encode("utf-8")] for post in data]
 
-with open('InstagramOutput.csv', 'r+a') as f:
+
+filename = 'InstagramOutput.csv'
+if os.path.exists(filename):
+    append_write = 'a'  # append if already exists
+else:
+    append_write = 'w'  # make a new file if not
+
+with open(filename, append_write) as f:
     writer = csv.writer(f)
-    f.seek(0)  # ensure you're at the start of the file..
-    first_char = f.read(1)  # get the first character
-    if not first_char:
+    if append_write == 'w':
         writer.writerow(["screen_name", "created_at",
                          "hashtags", "place", "text"])
         writer.writerows(results)

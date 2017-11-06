@@ -1,5 +1,6 @@
 from TwitterAPI import TwitterAPI
 import csv
+import os
 
 consumer_key = ""
 consumer_secret = ""
@@ -37,11 +38,15 @@ for item in r:
 results = [[tweet['user']['screen_name'], tweet['created_at'].replace('+0000 ', ''), getAllHashtags(tweet['entities']['hashtags']),
             getLocation(tweet['place']), tweet['text'].encode("utf-8")] for tweet in data]
 
-with open('TwitterOutput.csv', 'r+a') as f:
+filename = 'TwitterOutput.csv'
+if os.path.exists(filename):
+    append_write = 'a'  # append if already exists
+else:
+    append_write = 'w'  # make a new file if not
+
+with open(filename, append_write) as f:
     writer = csv.writer(f)
-    f.seek(0)  # ensure you're at the start of the file..
-    first_char = f.read(1)  # get the first character
-    if not first_char:
+    if append_write == 'w':
         writer.writerow(["screen_name", "created_at",
                          "hashtags", "place", "text"])
         writer.writerows(results)
