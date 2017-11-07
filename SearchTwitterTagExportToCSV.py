@@ -6,6 +6,8 @@ consumer_key = ""
 consumer_secret = ""
 access_token_key = ""
 access_token_secret = ""
+SEARCH = ""
+COUNT = ""
 
 
 def getAllHashtags(list):
@@ -28,7 +30,7 @@ def getLocation(place):
 api = TwitterAPI(consumer_key, consumer_secret,
                  access_token_key, access_token_secret)
 
-r = api.request('search/tweets', {'q': '#cat', 'count': '15'})
+r = api.request('search/tweets', {'q': SEARCH, 'count': COUNT})
 
 data = []
 

@@ -3,6 +3,10 @@ import datetime
 import csv
 import os
 
+USERNAME = ""
+PASSWORD = ""
+TAG = ""
+
 
 def getTime(text):
     return datetime.datetime.fromtimestamp(int(text)).strftime('%Y-%m-%d %H:%M:%S')
@@ -27,9 +31,9 @@ def getLocation(place):
     return location
 
 
-api = InstagramAPI("USERNAME", "PASSWORD")
+api = InstagramAPI(USERNAME, PASSWORD)
 api.login()  # login
-api.tagFeed("cat")  # get media list by tag #cat
+api.tagFeed(TAG)  # get media list by tag #cat
 media_id = api.LastJson  # last response JSON
 
 data = []
